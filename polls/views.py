@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
+from django.views import generic
 
 from .models import Choice, Question
 
@@ -41,7 +42,22 @@ def vote(request, question_id):
 		selected_choice.save()
 		return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))
 
-# def _render(request, temp, data):
-# 	context = RequestContext(request, data)
-# 	template = loader.get_template(temp)
-# 	return HttpResponse(template.render(context))
+
+#Django generic views
+class IndexView(generic.ListView):
+	template_name = 'polls/index.html'
+	context_object_name = 'latest_questions'
+
+	def get_queryset(self):
+		'''Return the last five questions'''
+		return Question.objects.order_by('-pub_date')[:5]
+
+
+class DetailView(generic.DetailView):
+	model = Question
+	template_name = 'polls/detail.html'
+
+
+class ResultsView(generic.DetailView):
+	model = Question
+	template_name = 'polls/results.html'
