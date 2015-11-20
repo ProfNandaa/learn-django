@@ -1,3 +1,5 @@
+from django.contrib.auth.models import User
+
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
@@ -43,6 +45,26 @@ def vote(request, question_id):
 		selected_choice.save()
 		return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))
 
+def register(request):
+	#redo with Django forms
+	if request.method == 'POST':
+		username = request.POST['username']
+		first_name = request.POST['first_name']
+		last_name = request.POST['last_name']
+		email = request.POST['email']
+		password = request.POST['password']
+
+		user = User.objects.create_user(username, email, password)
+		user.first_name = first_name
+		user.last_name = last_name
+		user.save()
+
+		return HttpResponseRedirect(reverse('polls:index'))
+	else:
+		return render(request, 'polls/register.html', {})
+
+def custom_404(request):
+	return render(request, 'polls/404.html')
 
 #Django generic views
 class IndexView(generic.ListView):

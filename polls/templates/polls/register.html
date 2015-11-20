@@ -1,0 +1,51 @@
+{% extends 'polls/layout.html' %}
+
+{% block content %}
+
+	<div class="row">
+		<h4>User Signup</h4>
+		
+		<form class="col s12" action="" method="post">
+			{% csrf_token %}
+			<div class="row">
+				<div class="input-field col s6">
+		          <input name="first_name" id="first_name" type="text" class="validate" required>
+		          <label for="first_name">First Name</label>
+		        </div>
+		        <div class="input-field col s6">
+		          <input name="last_name" id="last_name" type="text" class="validate" required>
+		          <label for="last_name">Last Name</label>
+		        </div>
+		    </div>
+
+		    <div class="row">
+		    	<div class="input-field col s6">
+		          <input name="email" id="email" type="text" class="validate" required>
+		          <label for="email">Email</label>
+		        </div>
+		        <div class="input-field col s6">
+		          <input name="username" id="username" type="text" class="validate" required>
+		          <label for="username">Username</label>
+		        </div>
+
+		    </div>
+
+		    <div class="row">
+		    	<div class="input-field col s6">
+		          <input name="password" id="password" type="password" class="validate" required>
+		          <label for="password">Password</label>
+		        </div>
+		        <div class="input-field col s6">
+		          <input name="password_confirm" id="password_confirm" type="password" class="validate" required>
+		          <label for="password_confirm">Confirm Password</label>
+		        </div>
+
+		    </div>
+
+		    <button class="waves-effect waves-light btn-large" type="submit">
+		    	Sign Up
+		    </button>
+		</form>
+	</div>
+
+{% endblock %}
