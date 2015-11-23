@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import get_object_or_404, render
@@ -45,7 +47,7 @@ def vote(request, question_id):
 		selected_choice.save()
 		return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))
 
-def register(request):
+def user_register(request):
 	#redo with Django forms
 	if request.method == 'POST':
 		username = request.POST['username']
@@ -62,6 +64,33 @@ def register(request):
 		return HttpResponseRedirect(reverse('polls:index'))
 	else:
 		return render(request, 'polls/register.html', {})
+
+def user_login(request):
+	error = None
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+
+		user = authenticate(username=username, password=password)
+
+		if user is not None:
+			if user.is_active:
+				login(request, user)
+				return HttpResponseRedirect('/polls/user/profile')
+			else:
+				return HttpResponse("Account has been disabled")
+		else:
+			error = "Wrong email/password combination"
+	return render(request, 'polls/login.html', {'error': error})
+
+def user_logout(request):
+	logout(request)
+	return HttpResponseRedirect('/polls/user/login')
+
+@login_required(login_url='/polls/user/login')
+def user_profile(request):
+	return render(request, 'polls/user_profile.html', {})
+
 
 def custom_404(request):
 	return render(request, 'polls/404.html')
