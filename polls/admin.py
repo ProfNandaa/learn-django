@@ -2,7 +2,8 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Question, Choice
+from .models.Question import Question
+from .models.Choice import Choice
 
 #StackedInline or TabularIniline
 class ChoiceInline(admin.TabularInline):
