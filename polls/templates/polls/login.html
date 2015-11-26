@@ -4,10 +4,6 @@
 
 	<div class="row">
 		<h4>User Login</h4>
-
-		{% if error %}
-			<div class="alert alert-warning">{{ error }}</div>
-		{% endif %}
 		
 		<form class="col s12" action="" method="post">
 			{% csrf_token %}
@@ -29,4 +25,15 @@
 		</form>
 	</div>
 
+{% endblock %}
+
+{% block js %}
+
+        {% if error %}
+            <!-- <div class="alert alert-warning">{{ error }}</div> -->
+            <script type="text/javascript">
+                Materialize.toast('{{ error }}', 4000)
+            </script>
+        {% endif %}
+        
 {% endblock %}

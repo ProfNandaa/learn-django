@@ -1,5 +1,9 @@
 
-
 nav a {
 	color: #555 !important;
+}
+
+.toast {
+    background: #ffab00 ;
+    font-weight: bold;
 }
