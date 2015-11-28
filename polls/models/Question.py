@@ -1,9 +1,11 @@
-import datetime
+from .__shared_imports import *
 
-from django.db import models
+import datetime
 from django.utils import timezone
 
+
 class Question(models.Model):
+
     class Meta:
         app_label = 'polls'
 
