@@ -1,0 +1,32 @@
+{% extends 'partials/layout.html' %}
+
+{% block content %}
+
+	{% if latest_questions %}
+		<h4>Current Polls</h4>
+		<div class="collection">
+	 	{% for question in latest_questions %}
+	 		<a class="collection-item" href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+	 	{% endfor %}
+	 	</div>
+	{% else %}
+		<p>No polls are available.</p>
+	{% endif %}
+
+	<form action="">
+		{% csrf_token %}
+		<form class="col s12" action="" method="post">
+			{% csrf_token %}
+			<div class="row col s6">
+				<div class="input-field">
+		          <input name="question" ng-model="question" type="text" class="validate" required>
+		          <label for="question">Question</label>
+		        </div>
+		        <button class="waves-effect waves-light btn" type="submit"> Add Question
+		    	</button> <a class="collection-item" href="#">
+		    	{$ question $}</a>
+		    </div>
+
+		</form>
+
+{% endblock %}
