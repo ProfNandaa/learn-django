@@ -1,10 +1,13 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers, viewsets
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+from polls.models.Question import Question
+
+class UserSerializer(serializers.ModelSerializer):
+    questions = serializers.PrimaryKeyRelatedField(many=True, queryset=Question.get())
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name', 'last_name',)
+        fields = ('id', 'username', 'questions',)
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -8,9 +9,12 @@ from django.shortcuts import render
 # from rest_framework import status
 
 from rest_framework import generics
+from rest_framework import permissions
 
 from polls.models.Question import Question
-from .serializers.QuestionSerializer import QuestionSerializer
+from .serializers.question_serializer import QuestionSerializer
+from .serializers.user_serializer import UserSerializer
+from .permissions import IsOwnerOrReadOnly
 
 """
 
@@ -62,9 +66,25 @@ class QuestionDetail(APIView):
 """
 
 class QuestionList(generics.ListCreateAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                            IsOwnerOrReadOnly)
     queryset = Question.get()
     serializer_class = QuestionSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 class QuestionDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                            IsOwnerOrReadOnly)
     queryset = Question.get()
     serializer_class = QuestionSerializer
+
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
