@@ -23,8 +23,10 @@
 		          <label for="question">Question</label>
 		        </div>
 		        <button class="waves-effect waves-light btn" type="submit"> Add Question
-		    	</button> <a class="collection-item" href="#">
-		    	{$ question $}</a>
+		    	</button> 
+		    	{% verbatim %}
+		    	<p>{{ question }}</p>
+		    	{% endverbatim %}
 		    </div>
 
 		</form>

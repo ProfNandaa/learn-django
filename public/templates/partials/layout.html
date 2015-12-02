@@ -9,15 +9,10 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'materialize/css/materialize.css' %}" />
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
 	<script type="text/javascript" src="{% static 'js/lib/angular.min.js' %}"></script>
-	<script type="text/javascript">
-		//change Angular template tags
-		var polls = angular.module('polls').config(function($interpolateProvider) {
-		    $interpolateProvider.startSymbol('{$');
-		    $interpolateProvider.endSymbol('$}');
-		});
-	</script>
+	<script type="text/javascript" src="{% static 'js/angular/app.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/angular/controllers.js' %}"></script>
 </head>
-<body>
+<body ng-controller="MainController">
 <div class="main">
 
 	{% block nav %}
