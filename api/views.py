@@ -17,6 +17,7 @@ from polls.models.Question import Question
 from .serializers.question_serializer import QuestionSerializer
 from .serializers.user_serializer import UserSerializer
 from .permissions import IsOwnerOrReadOnly
+from .auth import CsrfExemptSessionAuthentication
 
 class QuestionViewSet(viewsets.ModelViewSet):
     '''
@@ -27,6 +28,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
     serializer_class = QuestionSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly)
+    authentication_classes = (CsrfExemptSessionAuthentication, )
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

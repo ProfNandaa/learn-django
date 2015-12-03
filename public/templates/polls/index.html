@@ -1,32 +1,36 @@
 {% extends 'partials/layout.html' %}
 
 {% block content %}
+<div class="row">
+	<div class="col s6">
+		{% if latest_questions %}
+			<h4>Current Polls</h4>
+			<div class="collection">
+		 	{% for question in latest_questions %}
+		 		<a class="collection-item" href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+		 	{% endfor %}
+		 	</div>
+		{% else %}
+			<p>No polls are available.</p>
+		{% endif %}
+	</div>
 
-	{% if latest_questions %}
-		<h4>Current Polls</h4>
-		<div class="collection">
-	 	{% for question in latest_questions %}
-	 		<a class="collection-item" href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
-	 	{% endfor %}
-	 	</div>
-	{% else %}
-		<p>No polls are available.</p>
-	{% endif %}
-
-	{% if request.user.username %}
-	{% verbatim %}
-	<form class="col s12" action="" method="post">
-		<div class="row col s6">
+	<div class="col s6" style="padding-top: 40px;">
+		{% if request.user.username %}
+		{% verbatim %}
+		<form ng-controller="Question">
 			<div class="input-field">
 	          <input name="question" ng-model="question" type="text" class="validate" required>
 	          <label for="question">Question</label>
 	        </div>
-	        <button class="waves-effect waves-light btn" type="submit"> Add Question
-	    	</button> 
-	    	<p>{{ question }}</p>
-	    </div>
-	</form>
-	{% endverbatim %}
-	{% endif %}
-
+	        <button ng-click="add()" class="waves-effect waves-light btn"> Add Question
+	    	</button> {{ log }}
+	    	<ul>
+	    		<li ng-repeat="q in questions">{{ q.question_text }}</li>
+	    	</ul>
+		</form>
+		{% endverbatim %}
+		{% endif %}
+	</div>
+</div>
 {% endblock %}
