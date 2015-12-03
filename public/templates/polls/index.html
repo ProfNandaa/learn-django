@@ -13,22 +13,20 @@
 		<p>No polls are available.</p>
 	{% endif %}
 
-	<form action="">
-		{% csrf_token %}
-		<form class="col s12" action="" method="post">
-			{% csrf_token %}
-			<div class="row col s6">
-				<div class="input-field">
-		          <input name="question" ng-model="question" type="text" class="validate" required>
-		          <label for="question">Question</label>
-		        </div>
-		        <button class="waves-effect waves-light btn" type="submit"> Add Question
-		    	</button> 
-		    	{% verbatim %}
-		    	<p>{{ question }}</p>
-		    	{% endverbatim %}
-		    </div>
-
-		</form>
+	{% if request.user.username %}
+	{% verbatim %}
+	<form class="col s12" action="" method="post">
+		<div class="row col s6">
+			<div class="input-field">
+	          <input name="question" ng-model="question" type="text" class="validate" required>
+	          <label for="question">Question</label>
+	        </div>
+	        <button class="waves-effect waves-light btn" type="submit"> Add Question
+	    	</button> 
+	    	<p>{{ question }}</p>
+	    </div>
+	</form>
+	{% endverbatim %}
+	{% endif %}
 
 {% endblock %}
